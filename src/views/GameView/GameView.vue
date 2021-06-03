@@ -1,10 +1,10 @@
 <template>
   <div>
-    <drop-container></drop-container>
+    <drop-container :images.sync="images"></drop-container>
     <v-row>
       <v-col cols="5">
         Add new object
-        <add-list></add-list>
+        <add-list :images.sync="images"></add-list>
       </v-col>
       <v-col>
         Log
@@ -28,6 +28,7 @@ import DropContainer from "../../components/DropContainer/DropContainer.vue";
   },
 })
 class GameView extends Vue {
+  images = [];
   created(): void {
     console.log("gameView");
   }

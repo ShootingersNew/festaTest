@@ -1,13 +1,22 @@
 <template>
-  <div class="dropContainer">
+  <div class="dropContainer" @dragover.prevent @drop.prevent>
     <div class="dropContainer__title">Container A</div>
-    <div class="dropContainer__container"></div>
+    <div class="dropContainer__container" @drop="handleFileDrop">
+      <div
+        class="dropContainer__imageContainer float-left"
+        :key="idx"
+        v-for="(file, idx) in files"
+      >
+        <v-btn icon @click="removeFile(idx)"> <v-icon>mdi-close</v-icon></v-btn>
+        <img class="dropContainer__image" :src="file.url" alt="" />
+      </div>
+    </div>
   </div>
 </template>
 <style>
 .dropContainer__container {
   width: 100%;
-  height: 500px;
+  min-height: 500px;
   position: relative;
   background-color: #eeeeee;
   border: 2px solid #888888;
@@ -21,16 +30,55 @@
   margin: 0.67em 0;
   color: #888888;
 }
+.dropContainer__imageContainer {
+  width: 128px;
+  height: 128px;
+  position: relative;
+}
+.dropContainer__deleteButton {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.dropContainer__image {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
 </style>
 <script lang="ts">
-import { Component } from "vue-property-decorator";
+import { Component, Prop } from "vue-property-decorator";
 import Vue from "vue";
+import FileWithUrlModel from "../../models/FileWithUrlModel";
 @Component({
   name: "DropContainer",
 })
 export default class DropContainer extends Vue {
-  created(): void {
-    console.log("dropContainer");
+  @Prop({ default: [] }) images: FileWithUrlModel[];
+
+  get files(): FileWithUrlModel[] {
+    return this.images;
   }
+  set files(newArr: FileWithUrlModel[]) {
+    this.$emit("update:images", newArr);
+  }
+  handleFileDrop(e: any): void {
+    let droppedFiles = e.dataTransfer.files;
+    if (!droppedFiles) return;
+    [...droppedFiles].forEach((f) => {
+      this.files.push({ ...f, url: URL.createObjectURL(f) });
+    });
+  }
+  removeFile(fileKey: number): void {
+    this.files = [...this.files].filter((item, idx) => idx !== fileKey);
+  }
+  // fileDragIn(): void {
+  //   // alert("oof")
+  //   // alert("color")
+  //   this.color = "white";
+  // }
+  // fileDragOut() {
+  //   this.color = "#444444";
+  // }
 }
 </script>

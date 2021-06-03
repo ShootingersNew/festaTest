@@ -13,7 +13,6 @@
       </v-list>
     </v-col>
     <v-col>
-      <v-btn>SELECT IMAGE</v-btn>
       <v-btn>ADD OBJECT</v-btn>
     </v-col>
   </v-row>
