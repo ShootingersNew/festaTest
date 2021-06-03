@@ -68,8 +68,8 @@ export default class DropContainer extends Vue {
   set files(newArr: FileWithUrlModel[]) {
     this.$emit("update:images", newArr);
   }
-  handleFileDrop(e: any): void {
-    let droppedFiles = e.dataTransfer.files;
+  handleFileDrop(e: DragEvent): void {
+    let droppedFiles = e.dataTransfer?.files;
     if (!droppedFiles) return;
     [...droppedFiles].forEach((f) => {
       this.files.push({ ...f, url: URL.createObjectURL(f) });
