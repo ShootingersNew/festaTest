@@ -14,7 +14,7 @@
         v-for="(file, idx) in files"
       >
         <v-btn icon @click="removeFile(idx)"> <v-icon>mdi-close</v-icon></v-btn>
-        <img class="dropContainer__image" :src="file.url" alt="" />
+        <img class="dropContainer__image" :src="urlFromFile(file)" alt="" />
       </div>
     </div>
   </div>
@@ -55,28 +55,32 @@
 <script lang="ts">
 import { Component, Prop } from "vue-property-decorator";
 import Vue from "vue";
-import FileWithUrlModel from "../../models/FileWithUrlModel";
 @Component({
   name: "DropContainer",
 })
 export default class DropContainer extends Vue {
-  @Prop({ default: [] }) images: FileWithUrlModel[];
+  @Prop({ default: [] }) images: File[];
   color = "#EEEEEE";
-  get files(): FileWithUrlModel[] {
+  get files(): File[] {
     return this.images;
   }
-  set files(newArr: FileWithUrlModel[]) {
+  set files(newArr: File[]) {
     this.$emit("update:images", newArr);
   }
+  urlFromFile(img: File): string {
+    return URL.createObjectURL(img);
+  }
   handleFileDrop(e: DragEvent): void {
-    let droppedFiles = e.dataTransfer?.files;
+    const droppedFiles = e.dataTransfer?.files;
     if (!droppedFiles) return;
     [...droppedFiles].forEach((f) => {
-      this.files.push({ ...f, url: URL.createObjectURL(f) });
+      this.files.push(f);
+      this.$nextTick;
+      console.log(this.files);
     });
   }
   removeFile(fileKey: number): void {
-    this.files = [...this.files].filter((item, idx) => idx !== fileKey);
+    this.files = this.files.filter((item, idx) => idx !== fileKey);
   }
   fileDragIn(): void {
     this.color = "white";

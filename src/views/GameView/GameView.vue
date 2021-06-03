@@ -28,7 +28,7 @@ import DropContainer from "../../components/DropContainer/DropContainer.vue";
   },
 })
 class GameView extends Vue {
-  images = [];
+  images: File[] = [];
   created(): void {
     console.log("gameView");
   }
