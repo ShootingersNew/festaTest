@@ -1,7 +1,7 @@
 <template>
   <div class="dropContainer">
     <div class="dropContainer__title">Container A</div>
-    <div class="dropContainer__container">container</div>
+    <div class="dropContainer__container"></div>
   </div>
 </template>
 <style>

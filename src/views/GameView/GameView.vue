@@ -1,10 +1,16 @@
 <template>
   <div>
     <drop-container></drop-container>
-    <div>
-      <add-list></add-list>
-      <history-log></history-log>
-    </div>
+    <v-row>
+      <v-col cols="5">
+        Add new object
+        <add-list></add-list>
+      </v-col>
+      <v-col>
+        Log
+        <history-log></history-log>
+      </v-col>
+    </v-row>
   </div>
 </template>
 <script lang="ts">
