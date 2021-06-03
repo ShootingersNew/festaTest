@@ -1,7 +1,13 @@
 <template>
   <div class="dropContainer" @dragover.prevent @drop.prevent>
     <div class="dropContainer__title">Container A</div>
-    <div class="dropContainer__container" @drop="handleFileDrop">
+    <div
+      class="dropContainer__container"
+      @dragleave="fileDragOut"
+      @dragover="fileDragIn"
+      @drop="handleFileDrop"
+      v-bind:style="{ 'background-color': color }"
+    >
       <div
         class="dropContainer__imageContainer float-left"
         :key="idx"
@@ -55,7 +61,7 @@ import FileWithUrlModel from "../../models/FileWithUrlModel";
 })
 export default class DropContainer extends Vue {
   @Prop({ default: [] }) images: FileWithUrlModel[];
-
+  color = "#EEEEEE";
   get files(): FileWithUrlModel[] {
     return this.images;
   }
@@ -72,13 +78,11 @@ export default class DropContainer extends Vue {
   removeFile(fileKey: number): void {
     this.files = [...this.files].filter((item, idx) => idx !== fileKey);
   }
-  // fileDragIn(): void {
-  //   // alert("oof")
-  //   // alert("color")
-  //   this.color = "white";
-  // }
-  // fileDragOut() {
-  //   this.color = "#444444";
-  // }
+  fileDragIn(): void {
+    this.color = "white";
+  }
+  fileDragOut(): void {
+    this.color = "#EEEEEE";
+  }
 }
 </script>
