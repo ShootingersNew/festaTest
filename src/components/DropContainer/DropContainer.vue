@@ -73,11 +73,14 @@ export default class DropContainer extends Vue {
   handleFileDrop(e: DragEvent): void {
     const droppedFiles = e.dataTransfer?.files;
     if (!droppedFiles) return;
-    [...droppedFiles].forEach((f) => {
-      this.files.push(f);
-      this.$nextTick;
-      console.log(this.files);
-    });
+    const filesArr = [];
+    for (let idx = 0; idx < droppedFiles.length; idx++) {
+      filesArr.push(droppedFiles[idx]);
+    }
+    this.files = [
+      ...this.files,
+      ...filesArr.filter((x) => x.type.search(/image/) !== -1),
+    ];
   }
   removeFile(fileKey: number): void {
     this.files = this.files.filter((item, idx) => idx !== fileKey);

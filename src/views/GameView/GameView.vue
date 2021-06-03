@@ -4,7 +4,10 @@
     <v-row>
       <v-col cols="5">
         Add new object
-        <add-list :images.sync="images"></add-list>
+        <add-list
+          @submit="submitImages"
+          :images.sync="readyForUploadImages"
+        ></add-list>
       </v-col>
       <v-col>
         Log
@@ -13,6 +16,7 @@
     </v-row>
   </div>
 </template>
+
 <script lang="ts">
 import AddList from "@/components/AddList/AddList.vue";
 import HistoryLog from "@/components/HistoryLog/HistoryLog.vue";
@@ -29,8 +33,10 @@ import DropContainer from "../../components/DropContainer/DropContainer.vue";
 })
 class GameView extends Vue {
   images: File[] = [];
-  created(): void {
-    console.log("gameView");
+  readyForUploadImages: File[] = [];
+  submitImages(): void {
+    this.images = [...this.images, ...this.readyForUploadImages];
+    this.readyForUploadImages = [];
   }
 }
 export default GameView;
