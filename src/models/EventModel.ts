@@ -4,4 +4,7 @@ export default class EventModel {
   date: Date;
   file: string;
   target: "Container 1";
+  constructor(obj: Partial<EventModel>) {
+    return Object.assign(this, obj);
+  }
 }

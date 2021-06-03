@@ -7,7 +7,7 @@ export default class ImageModel {
   };
   constructor(obj: Partial<ImageModel>) {
     if (obj) {
-      Object.assign(this, obj);
+      return Object.assign(this, obj);
     }
   }
 }
