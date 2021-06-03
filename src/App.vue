@@ -1,6 +1,10 @@
 <template>
   <v-app>
-    <v-main> <game-view></game-view></v-main>
+    <v-main>
+      <v-container>
+        <game-view></game-view>
+      </v-container>
+    </v-main>
   </v-app>
 </template>
 
