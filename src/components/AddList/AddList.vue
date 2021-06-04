@@ -5,12 +5,14 @@
         <v-list-item
           class="addList__listItem"
           :key="item.id"
-          v-for="item in files"
+          v-for="(item, idx) in files"
         >
           <div class="addList__content">
             {{ item.name }}
             <v-list-item-action class="addList__delete">
-              <v-icon color="error"> mdi-close </v-icon>
+              <v-icon @click="removeUploadedImage(idx)" color="error">
+                mdi-close
+              </v-icon>
             </v-list-item-action>
           </div>
         </v-list-item>
@@ -109,6 +111,9 @@ class AddList extends Vue {
       }
     }
     this.files = [...this.files, ...fileArr];
+  }
+  removeUploadedImage(id: number): void {
+    this.files = this.files.filter((x, idx) => idx !== id);
   }
   submit(): void {
     this.$emit("submit");
