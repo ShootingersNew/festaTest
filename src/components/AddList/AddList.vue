@@ -4,7 +4,7 @@
       <v-list class="addList__list">
         <v-list-item
           class="addList__listItem"
-          :key="item.id"
+          :key="idx"
           v-for="(item, idx) in files"
         >
           <div class="addList__content">
@@ -82,17 +82,20 @@
 }
 </style>
 <script lang="ts">
+import FileWithGuid from "@/models/FileWithGuid";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
+import { generateUuid } from "@/utils/utils";
+import EventModel from "@/models/EventModel";
 @Component({
   name: "AddList",
 })
 class AddList extends Vue {
-  @Prop({ default: [] }) images: File[];
-  get files(): File[] {
+  @Prop({ default: [] }) images: FileWithGuid[];
+  get files(): FileWithGuid[] {
     return this.images;
   }
-  set files(newFiles: File[]) {
+  set files(newFiles: FileWithGuid[]) {
     this.$emit("update:images", newFiles);
   }
   stringDate(date: Date): string {
@@ -104,13 +107,26 @@ class AddList extends Vue {
   uploadHandler(e: Event): void {
     const target = e.target as HTMLInputElement;
     const fileList = target.files;
-    const fileArr = [];
+    const fileArr: FileWithGuid[] = [];
     if (fileList) {
       for (let index = 0; index < fileList.length; ++index) {
-        fileArr.push(fileList[index]);
+        const newFile: FileWithGuid = fileList[index];
+        newFile.guid = generateUuid();
+        fileArr.push(newFile);
       }
     }
     this.files = [...this.files, ...fileArr];
+    fileArr.forEach((item) => {
+      this.$emit(
+        "update-logs",
+        new EventModel({
+          type: "loaded",
+          target: "Container 1",
+          file: item.name,
+          date: new Date(),
+        })
+      );
+    });
   }
   removeUploadedImage(id: number): void {
     this.files = this.files.filter((x, idx) => idx !== id);

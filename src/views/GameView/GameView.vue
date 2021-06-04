@@ -13,7 +13,7 @@
           <add-list
             @submit="submitImages"
             :images.sync="readyForUploadImages"
-            @changeLog="log"
+            @update-logs="log"
           ></add-list>
         </div>
       </v-col>
@@ -43,6 +43,7 @@ import EventModel from "@/models/EventModel";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import DropContainer from "../../components/DropContainer/DropContainer.vue";
+import FileWithGuid from "../../models/FileWithGuid";
 @Component({
   name: "GameView",
   components: {
@@ -52,8 +53,8 @@ import DropContainer from "../../components/DropContainer/DropContainer.vue";
   },
 })
 class GameView extends Vue {
-  displayingImages: File[] = [];
-  readyForUploadImages: File[] = [];
+  displayingImages: FileWithGuid[] = [];
+  readyForUploadImages: FileWithGuid[] = [];
   logs: EventModel[] = [];
   submitImages(): void {
     this.displayingImages = [

@@ -10,7 +10,7 @@
     >
       <div
         class="dropContainer__imageContainer d-inline-block"
-        :key="file.lastModified + file.size"
+        :key="file.guid"
         v-for="(file, idx) in displayingImages"
       >
         <v-btn
@@ -67,29 +67,35 @@
 import { Component, Prop } from "vue-property-decorator";
 import Vue from "vue";
 import EventModel from "@/models/EventModel";
+import FileWithGuid from "../../models/FileWithGuid";
+import { generateUuid } from "@/utils/utils";
+
 @Component({
   name: "DropContainer",
 })
 export default class DropContainer extends Vue {
-  @Prop({ default: [] }) images: File[];
-  @Prop({ default: [] }) displayingImages: File[];
+  @Prop({ default: [] }) images: FileWithGuid[];
+  @Prop({ default: [] }) displayingImages: FileWithGuid[];
   color = "#EEEEEE";
-  get files(): File[] {
+  counter = 0;
+  get files(): FileWithGuid[] {
     return this.images;
   }
-  set files(newArr: File[]) {
+  set files(newArr: FileWithGuid[]) {
     this.$emit("update:images", newArr);
   }
-  urlFromFile(img: File): string {
+  urlFromFile(img: FileWithGuid): string {
     return URL.createObjectURL(img);
   }
   handleFileDrop(e: DragEvent): void {
     this.color = "#EEEEEE";
     const droppedFiles = e.dataTransfer?.files;
     if (!droppedFiles) return;
-    const filesArr = [];
+    const filesArr: FileWithGuid[] = [];
     for (let idx = 0; idx < droppedFiles.length; idx++) {
-      filesArr.push(droppedFiles[idx]);
+      const newFile: FileWithGuid = droppedFiles[idx];
+      newFile.guid = generateUuid();
+      filesArr.push(newFile);
     }
     this.files = [
       ...this.files,
