@@ -15,24 +15,26 @@
       </v-list>
     </v-col>
     <v-col>
-      <v-btn
-        class="addList__button addList__button_margin"
-        @click="selectFiles"
-        color="primary"
-        >Select Image</v-btn
-      >
-      <input
-        @change="uploadHandler"
-        hidden
-        ref="fileInput"
-        type="file"
-        name="file-input"
-        multiple="True"
-        accept="image/*"
-      />
-      <v-btn class="addList__button" color="success" @click="submit"
-        >ADD OBJECT</v-btn
-      >
+      <div>
+        <v-btn
+          class="addList__button addList__button_margin"
+          @click="selectFiles"
+          color="primary"
+          >Select Image</v-btn
+        >
+        <input
+          @change="uploadHandler"
+          hidden
+          ref="fileInput"
+          type="file"
+          name="file-input"
+          multiple="True"
+          accept="image/*"
+        />
+        <v-btn class="addList__button" color="success" @click="submit"
+          >ADD OBJECT</v-btn
+        >
+      </div>
     </v-col>
   </v-row>
 </template>
@@ -51,6 +53,9 @@
 }
 .addList__listItem {
   font-size: 0.75em;
+}
+.addList__button {
+  display: block !important;
 }
 </style>
 <script lang="ts">

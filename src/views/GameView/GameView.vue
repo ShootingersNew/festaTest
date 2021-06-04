@@ -7,7 +7,7 @@
       @delete="removeFile"
     ></drop-container>
     <v-row class="gameView__actions">
-      <v-col cols="5">
+      <v-col cols="12" lg="5">
         <div class="gameView__title">Add new object</div>
         <div class="gameView__actionFrame">
           <add-list
@@ -17,7 +17,7 @@
           ></add-list>
         </div>
       </v-col>
-      <v-col>
+      <v-col cols="12" lg="7">
         <div class="gameView__title">Log</div>
         <div class="gameView__actionFrame">
           <history-log :logs="logs"></history-log>
