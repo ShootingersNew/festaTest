@@ -1,28 +1,41 @@
 <template>
-  <div>
+  <div class="gameView">
     <drop-container
       :displayingImages="displayingImages"
       :images.sync="readyForUploadImages"
       @update-logs="log"
       @delete="removeFile"
     ></drop-container>
-    <v-row>
+    <v-row class="gameView__actions">
       <v-col cols="5">
-        Add new object
-        <add-list
-          @submit="submitImages"
-          :images.sync="readyForUploadImages"
-          @changeLog="log"
-        ></add-list>
+        <div class="gameView__title">Add new object</div>
+        <div class="gameView__actionFrame">
+          <add-list
+            @submit="submitImages"
+            :images.sync="readyForUploadImages"
+            @changeLog="log"
+          ></add-list>
+        </div>
       </v-col>
       <v-col>
-        Log
-        <history-log :logs="logs"></history-log>
+        <div class="gameView__title">Log</div>
+        <div class="gameView__actionFrame">
+          <history-log :logs="logs"></history-log>
+        </div>
       </v-col>
     </v-row>
   </div>
 </template>
-
+<style scoped>
+.gameView__actions {
+  margin-top: 64px;
+}
+.gameView__title {
+  font-size: 1.5em;
+  color: #888888;
+  margin-bottom: 10px;
+}
+</style>
 <script lang="ts">
 import AddList from "@/components/AddList/AddList.vue";
 import HistoryLog from "@/components/HistoryLog/HistoryLog.vue";

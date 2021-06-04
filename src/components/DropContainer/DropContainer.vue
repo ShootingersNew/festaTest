@@ -9,11 +9,15 @@
       v-bind:style="{ 'background-color': color }"
     >
       <div
-        class="dropContainer__imageContainer float-left"
+        class="dropContainer__imageContainer d-inline-block"
         :key="file.lastModified + file.size"
         v-for="(file, idx) in displayingImages"
       >
-        <v-btn icon @click="deleteButtonClick(idx)">
+        <v-btn
+          class="dropContainer__deleteButton"
+          icon
+          @click="deleteButtonClick(idx)"
+        >
           <v-icon>mdi-close</v-icon></v-btn
         >
         <img class="dropContainer__image" :src="urlFromFile(file)" alt="" />
@@ -53,6 +57,10 @@
   object-fit: contain;
   width: 100%;
   height: 100%;
+}
+.dropContainer__deleteButton {
+  position: absolute;
+  right: 0;
 }
 </style>
 <script lang="ts">

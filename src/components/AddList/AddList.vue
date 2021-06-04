@@ -1,19 +1,26 @@
 <template>
-  <v-row>
+  <v-row class="addList">
     <v-col>
-      <v-list>
-        <v-list-item :key="item.id" v-for="item in files">
+      <v-list class="addList__list">
+        <v-list-item
+          class="addList__listItem"
+          :key="item.id"
+          v-for="item in files"
+        >
           {{ item.name }}
-          <v-list-item-action>
-            <v-icon v-if="!active" color="grey lighten-1">
-              mdi-star-outline
-            </v-icon>
+          <v-list-item-action class="ml-2">
+            <v-icon v-if="!active" color="error"> mdi-close </v-icon>
           </v-list-item-action>
         </v-list-item>
       </v-list>
     </v-col>
     <v-col>
-      <v-btn @click="selectFiles">Select Image</v-btn>
+      <v-btn
+        class="addList__button addList__button_margin"
+        @click="selectFiles"
+        color="primary"
+        >Select Image</v-btn
+      >
       <input
         @change="uploadHandler"
         hidden
@@ -23,10 +30,29 @@
         multiple="True"
         accept="image/*"
       />
-      <v-btn @click="submit">ADD OBJECT</v-btn>
+      <v-btn class="addList__button" color="success" @click="submit"
+        >ADD OBJECT</v-btn
+      >
     </v-col>
   </v-row>
 </template>
+<style>
+.addList {
+  height: 100%;
+}
+.addList__list {
+  border: 1px solid #333333 !important;
+  width: 299px;
+  min-height: 202px;
+  overflow: hidden;
+}
+.addList__button_margin {
+  margin-bottom: 20px;
+}
+.addList__listItem {
+  font-size: 0.75em;
+}
+</style>
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
