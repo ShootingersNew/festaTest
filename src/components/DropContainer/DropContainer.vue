@@ -84,6 +84,7 @@ export default class DropContainer extends Vue {
     return URL.createObjectURL(img);
   }
   handleFileDrop(e: DragEvent): void {
+    this.color = "#EEEEEE";
     const droppedFiles = e.dataTransfer?.files;
     if (!droppedFiles) return;
     const filesArr = [];
