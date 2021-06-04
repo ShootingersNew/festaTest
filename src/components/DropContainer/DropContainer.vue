@@ -10,16 +10,19 @@
     >
       <div
         class="dropContainer__imageContainer float-left"
-        :key="idx"
-        v-for="(file, idx) in files"
+        :key="file.lastModified + file.size"
+        v-for="(file, idx) in displayingImages"
       >
-        <v-btn icon @click="removeFile(idx)"> <v-icon>mdi-close</v-icon></v-btn>
+        <v-btn icon @click="deleteButtonClick(idx)">
+          <v-icon>mdi-close</v-icon></v-btn
+        >
         <img class="dropContainer__image" :src="urlFromFile(file)" alt="" />
       </div>
     </div>
   </div>
 </template>
 <style>
+/* todo containers color */
 .dropContainer__container {
   width: 100%;
   min-height: 500px;
@@ -55,11 +58,13 @@
 <script lang="ts">
 import { Component, Prop } from "vue-property-decorator";
 import Vue from "vue";
+import EventModel from "@/models/EventModel";
 @Component({
   name: "DropContainer",
 })
 export default class DropContainer extends Vue {
   @Prop({ default: [] }) images: File[];
+  @Prop({ default: [] }) displayingImages: File[];
   color = "#EEEEEE";
   get files(): File[] {
     return this.images;
@@ -81,9 +86,20 @@ export default class DropContainer extends Vue {
       ...this.files,
       ...filesArr.filter((x) => x.type.search(/image/) !== -1),
     ];
+    filesArr.forEach((item) => {
+      this.$emit(
+        "update-logs",
+        new EventModel({
+          type: "loaded",
+          target: "Container 1",
+          file: item.name,
+          date: new Date(),
+        })
+      );
+    });
   }
-  removeFile(fileKey: number): void {
-    this.files = this.files.filter((item, idx) => idx !== fileKey);
+  deleteButtonClick(fileKey: number): void {
+    this.$emit("delete", fileKey);
   }
   fileDragIn(): void {
     this.color = "white";

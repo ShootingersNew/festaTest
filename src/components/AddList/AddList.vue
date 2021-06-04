@@ -4,11 +4,11 @@
       <v-list>
         <v-list-item :key="item.id" v-for="item in files">
           {{ item.name }}
-          <v-list-action>
+          <v-list-item-action>
             <v-icon v-if="!active" color="grey lighten-1">
               mdi-star-outline
             </v-icon>
-          </v-list-action>
+          </v-list-item-action>
         </v-list-item>
       </v-list>
     </v-col>
