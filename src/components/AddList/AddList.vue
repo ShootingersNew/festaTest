@@ -10,7 +10,7 @@
           <div class="addList__content">
             {{ item.name }}
             <v-list-item-action class="addList__delete">
-              <v-icon v-if="!active" color="error"> mdi-close </v-icon>
+              <v-icon color="error"> mdi-close </v-icon>
             </v-list-item-action>
           </div>
         </v-list-item>
