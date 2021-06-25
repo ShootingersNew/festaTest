@@ -1,7 +1,7 @@
 <template>
   <div class="gameView">
     <drop-container
-      :displayingImages="displayingImages"
+      :displaying-images="displayingImages"
       :images.sync="readyForUploadImages"
       @update-logs="log"
       @delete="removeFile"
